@@ -13,6 +13,7 @@ class EditProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scafold = Scaffold.of(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(imageurl),
@@ -29,12 +30,26 @@ class EditProducts extends StatelessWidget {
                   Navigator.of(context)
                       .pushNamed(AddProducts.routeName, arguments: id);
                 }),
-            IconButton(icon: Icon(Icons.delete), onPressed: () {
-              Provider.of<ProductProvider>(context,listen: false).remove_product(id);
-            }),
+            IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () async {
+                  try {
+                    await Provider.of<ProductProvider>(context, listen: false)
+                        .remove_product(id);
+                  } catch (err) {
+                    scafold.showSnackBar(
+                      SnackBar(
+                        duration: Duration(seconds: 5),
+                        content: Text("Something went wrong while Deleting"),
+                      ),
+                    );
+                  }
+                }),
           ],
         ),
       ),
     );
   }
 }
+
+

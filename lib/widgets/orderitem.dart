@@ -11,8 +11,8 @@ class OrderItem extends StatefulWidget {
 }
 
 class _OrderItemState extends State<OrderItem> {
-  Widget build(BuildContext context) {
     var _expanded = false;
+  Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
       child: Column(
@@ -21,24 +21,18 @@ class _OrderItemState extends State<OrderItem> {
             title: Text('\$${widget.order.amount}'),
             subtitle: Text(DateFormat('dd-MMM-yyy').format(widget.order.date)),
             trailing: IconButton(
-              icon: (_expanded)
-                  ? Icon(Icons.expand_less_outlined)
-                  : Icon(Icons.expand_more_outlined),
+              icon:
+                  Icon( _expanded?Icons.expand_less:Icons.expand_more),
+                  
               onPressed: () {
                 setState(() {
-                  if (_expanded == true) {
-                    _expanded = false;
-                    print(_expanded);
-                  } else {
-                    _expanded = true;
-                    print(_expanded);
-                  }
-                  // _expanded = !_expanded;
+                  
+                  _expanded = !_expanded;
                 });
               },
             ),
           ),
-          if (_expanded == true)
+          if (_expanded)
             Container(
                 height: 100,
                 child: ListView.builder(
