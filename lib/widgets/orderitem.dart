@@ -34,23 +34,27 @@ class _OrderItemState extends State<OrderItem> {
           ),
           if (_expanded)
             Container(
-                height: 100,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(widget.order.products[index].title),
-                          subtitle: Text('\$${widget.order.amount}'),
-                          trailing: Text(
-                              '${widget.order.products[index].quantity}x ${widget.order.products[index].price}'),
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                  itemCount: widget.order.products.length,
-                )),
+              padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(border: Border.all(width: 1),color: Colors.indigo[200]),
+                // color: Colors.indigo[100],
+                  height: 100,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          ListTile(
+                            title: Text(widget.order.products[index].title),
+                            subtitle: Text('\$${widget.order.amount}'),
+                            trailing: Text(
+                                '${widget.order.products[index].quantity}x ${widget.order.products[index].price}'),
+                          ),
+                          Divider(),
+                        ],
+                      );
+                    },
+                    itemCount: widget.order.products.length,
+                  )),
+          
         ],
       ),
     );

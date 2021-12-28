@@ -11,6 +11,8 @@ import './provider/Cart_Provider.dart';
 import './screens/ProductDetails.dart';
 import './screens/ProductOverview.dart';
 import './screens/AddProducts.dart';
+import 'provider/Auth_Provider.dart';
+import 'screens/auth_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Auth(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => ProductProvider(),
         ),
@@ -40,8 +45,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.orange,
             errorColor: Colors.red,
             fontFamily: 'Lato '),
-        home: MyProductOverview(),
-      
+        home: AuthScreen(),
         routes: {
           ProductDetial.routeName: (cxt) => ProductDetial(),
           CartScreen.routeName: (cxt) => CartScreen(),

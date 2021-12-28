@@ -4,14 +4,21 @@ import '../provider/Order_Provider.dart';
 import '../provider/Cart_Provider.dart' show Cart;
 import '../widgets/cart_items.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const routeName = '/cart';
   const CartScreen({Key key}) : super(key: key);
 
   @override
+  _CartScreenState createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  bool _isLoading = false;
+  @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
     final order = Provider.of<Orders>(context);
+    print(cart.totalamount.toString());
     return Scaffold(
       appBar: AppBar(
         title: Text("Cart"),
@@ -41,18 +48,30 @@ class CartScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   FlatButton(
-                    onPressed: () {
-                      order.addOrder(
-                          cart.items.values.toList(), cart.totalamount);
-                          cart.clearCart();
-                    },
-                    child: Text(
-                      "ORDER\n  NOW",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15),
-                    ),
+                    onPressed: (cart.totalamount <= 0 || _isLoading)
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            await order.addOrder(
+                                cart.items.values.toList(), cart.totalamount);
+                            cart.clearCart();
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
+                    child: (_isLoading)
+                        ? CircularProgressIndicator()
+                        : Text(
+                            "ORDER\n  NOW",
+                            style: TextStyle(
+                                color: (cart.totalamount <= 0)
+                                    ? Colors.grey
+                                    : Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 15),
+                          ),
                   )
                 ],
               ),
